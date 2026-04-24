@@ -30,9 +30,9 @@ class Grid:
             self.mode = "fixed"
 
         self.obstacle_density = obstacle_density
-        self.cells = self._generate()
+        self.cells = self.generate()
 
-    def _generate(self) -> list[list[int]]:
+    def generate(self) -> list[list[int]]:
         # Generate a valid grid with a guaranteed path from start to goal.
         # Retries up to 100 times with random states.
         random_number = random.Random(self.seed)
@@ -47,13 +47,12 @@ class Grid:
         # Start and goal are always open, so available obstacle slots = total - 2
         obstacle_slots = total_cells - 2
         n_obstacles = int(obstacle_slots * density)
-
-        obstacle_eligible_positions = [
-            (r, c)
-            for r in range(self.size)
-            for c in range(self.size)
-            if (r, c) != self.start and (r, c) != self.goal
-        ]
+        
+        obstacle_eligible_positions = []
+        for r in range(self.size):
+            for c in range(self.size):
+                if (r, c) != self.start and (r, c) != self.goal:
+                    obstacle_eligible_positions.append((r, c))
 
         for attempt in range(100):
             cells = [[0] * self.size for _ in range(self.size)]
@@ -127,9 +126,9 @@ class Grid:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Grid":
+    def from_dict(Grid, d: dict) -> "Grid":
         # rebuilds a grid from the dictionary without generating a new grid
-        obj = object.__new__(cls)
+        obj = object.__new__(Grid)
         obj.size = d["size"]
         obj.seed = d["seed"]
         obj.mode = d["mode"]

@@ -62,12 +62,7 @@ class ExperimentRunner:
 
         self.recorder = MetricsRecorder()
 
-    def run_all(
-        self,
-        sizes: list[int] | None = None,
-        algorithms: list[str] | None = None,
-        mode: str = "both",
-    ) -> dict:
+    def run_all(self, sizes: list[int] | None = None, algorithms: list[str] | None = None, mode: str = "both") -> dict:
         active_sizes = sizes if sizes is not None else SIZES
         active_registry = [
             (cls, h) for cls, h in ALGORITHM_REGISTRY

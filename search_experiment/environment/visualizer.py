@@ -13,7 +13,10 @@ from environment.grid import Grid
 
 def visualize(grid: Grid, path: list[tuple[int, int]] | None = None) -> None:
     # prints a visual representation of a grid
-    path_set: set[tuple[int, int]] = set[tuple[int, int]](path) if path else set()
+    if path:
+        path_set = set(path)
+    else:
+        path_set = set()
 
     for r in range(grid.size):
         row_chars = []

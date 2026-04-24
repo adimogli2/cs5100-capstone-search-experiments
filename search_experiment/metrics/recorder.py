@@ -67,13 +67,11 @@ class MetricsRecorder:
 
         # run search
         skipped = False
+        # perf_counter to track runtime, chosen for its accuracy on short durations 
         start = time.perf_counter()
 
         try:
             result = algorithm.search()
-        except NotImplementedError:
-            result = algorithm.no_path_result()
-            skipped = True
         except Exception as exc:
             logger.error(
                 "Unexpected error in %s.search(): %s: %s",
